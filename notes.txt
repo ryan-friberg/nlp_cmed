@@ -1,0 +1,31 @@
+Open questions
+    - how to best split up clinical notes (sentence tokenizer, equal sized
+      chunks by number of tokens, etc)
+    - how to handle input sequences that contain multiple medications (achieve
+      distinct context without losing too much context for single medications)
+    - how to potentially integrate dependency/semantic relations into embeddings
+      to improve sequence classification tasks
+    - data augmentation: look for methods to generate more samples for
+      infrequently observed classes
+
+Model configuration options
+    - gradient clipping to avoid exploding gradients
+    - optimizer/learning rate scheduler
+
+Observations
+    - evidence of overfitting - train loss improves over epochs but performance
+      on validation set remains stagnant or declines over epochs
+    - baseline performance is comparable across all BERT checkpoints (clinical,
+      base, and distilled)
+
+Problem formulations
+    - token classification:
+        - split each document up into chunks of uniform size (in terms of
+          number of tokens) and run model on each chunk
+        - split each document up into chunks of uniform size with center word
+          being the medication for which model should perform inference
+    - sentence classification:
+        - split documents up into sentences and duplicate sentence containing k
+          medications k times to run inference for each medication
+        - split documents up into sentences and split each sentence such that
+          each segment contains a single medication
